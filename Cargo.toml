@@ -1,0 +1,29 @@
+[package]
+name = "tokenizers-wasm"
+version = "0.1.0"
+authors = ["Matthias Brunel <matthias.brunel@mithrilsecurity.io>"]
+edition = "2018"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+default = ["console_error_panic_hook"]
+
+[dependencies]
+wasm-bindgen = "0.2.63"
+console_error_panic_hook = { version = "0.1.6", optional = true }
+wee_alloc = { version = "0.4.5", optional = true }
+tokenizers = { version = "0.12", default-features = false, features = ["unstable_wasm"], git = "ssh://git@github.com/mithril-security/tokenizers.git", branch = "unstable_wasm"}
+
+[dependencies.esaxx-rs]
+features = ["pure-rust"]
+
+[patch.crates-io]
+esaxx-rs = {git = "ssh://git@github.com/mithril-security/esaxx-rs.git"}
+
+[dev-dependencies]
+wasm-bindgen-test = "0.3.13"
+
+[profile.release]
+opt-level = "s"
