@@ -2,11 +2,19 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Hello wasm-pack!</title>
+    <title>Hello tokenizers</title>
   </head>
   <body>
     <noscript>This page contains webassembly and javascript content, please enable javascript in your browser.</noscript>
     <script src="./bootstrap.js"></script>
-    <input type="file" id="input">
+    <input type="file" id="browser">
+    <br>
+    <input type="text" id="text">
+    <br>
+    <button id="button">Tokenize</button>
+    <br>
+    <div id="output-ids"></div>
+    <br>
+    <div id="output-tokens"></div>
   </body>
 </html>

@@ -1,14 +1,26 @@
-import * as tokenizer from "tokenizers-wasm";
+import * as tokenizers from "tokenizers-wasm";
 
-const inputElement = document.getElementById("input");
-inputElement.addEventListener("change", handleFiles, false);
+let tokenizer;
+const fileBrowser = document.getElementById("browser");
+fileBrowser.addEventListener("change", handleTokenizer, false);
+const textField = document.getElementById("text");
+const button = document.getElementById("button");
+button.addEventListener("click", handleInput, false);
+const outputIds = document.getElementById("output-ids");
+const outputText = document.getElementById("output-tokens");
 
-function handleFiles() {
+function handleTokenizer() {
   let reader = new FileReader();
   reader.onload = function(event) {
     let json = event.target.result;
-    let ids = tokenizer.tokenize(json, "I don't love AI and privacy!");
-    console.log(ids)
+    tokenizer = new tokenizers.TokenizerWasm(json);
   };
-  reader.readAsText(inputElement.files[0]);
+  reader.readAsText(fileBrowser.files[0]);
+}
+
+function handleInput() {
+  let text = textField.value;
+  let encoding = tokenizer.encode(text, false);
+  outputIds.innerHTML = "ids : [" + encoding.get_ids() + "]";
+  outputText.innerHTML = "tokens : [" + encoding.get_tokens() + "]";
 }
