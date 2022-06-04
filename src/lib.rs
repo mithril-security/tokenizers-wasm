@@ -1,12 +1,7 @@
-mod utils;
 use wasm_bindgen::prelude::*;
-use tokenizers::tokenizer::{Result, Tokenizer, EncodeInput, Encoding};
+use tokenizers::tokenizer::{Tokenizer, Encoding};
 use std::str::FromStr;
 use js_sys;
-
-#[cfg(feature = "wee_alloc")]
-#[global_allocator]
-static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
 #[wasm_bindgen]
 pub struct TokenizerWasm {
@@ -15,9 +10,10 @@ pub struct TokenizerWasm {
 
 #[wasm_bindgen]
 impl TokenizerWasm {
+
     #[wasm_bindgen(constructor)]
-    pub fn new(json: &str) -> TokenizerWasm {
-        TokenizerWasm { tokenizer: Tokenizer::from_str(json.into()).unwrap().into() }
+    pub fn from_buffer(json: String) -> TokenizerWasm {
+        TokenizerWasm { tokenizer: Tokenizer::from_str(json.as_str()).unwrap().into() }
     }
 
     pub fn encode(&self, text: &str, add_special_tokens: bool) -> EncodingWasm {
@@ -32,10 +28,13 @@ pub struct EncodingWasm {
 
 #[wasm_bindgen]
 impl EncodingWasm {
+
+    #[wasm_bindgen(method, getter = input_ids)]
     pub fn get_ids(&self) -> js_sys::Uint32Array {
         self.encoding.get_ids().into()
     }
 
+    #[wasm_bindgen(method, getter = tokens)]
     pub fn get_tokens(&self) -> js_sys::Array {
         self.encoding.get_tokens().iter().map(|x| js_sys::JsString::from(x.as_str())).collect()
     }
