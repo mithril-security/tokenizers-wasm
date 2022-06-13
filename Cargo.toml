@@ -14,17 +14,11 @@ default = ["console_error_panic_hook"]
 wasm-bindgen = "0.2.63" # "0.2.63", features = ["serde-serialize"]}
 console_error_panic_hook = { version = "0.1.6", optional = true }
 js-sys = "0.3.57"
-# web-sys = { version = "0.3.57", features = ["RequestInit", "Request", "RequestMode", "Response", "Window"] }
-#wasm-bindgen-futures = "0.4.30"
-#serde = "1.0.137"
 wee_alloc = { version = "0.4.5", optional = true }
-tokenizers = { version = "0.12", default-features = false, features = ["unstable_wasm"], git = "ssh://git@github.com/mithril-security/tokenizers.git", branch = "unstable_wasm"}
+tokenizers = { default-features = false, features = ["unstable_wasm"], git = "https://github.com/huggingface/tokenizers" }
 
 [dependencies.esaxx-rs]
-features = ["pure-rust"]
-
-[patch.crates-io]
-esaxx-rs = {git = "ssh://git@github.com/mithril-security/esaxx-rs.git"}
+default-features = false
 
 [dev-dependencies]
 wasm-bindgen-test = "0.3.13"
